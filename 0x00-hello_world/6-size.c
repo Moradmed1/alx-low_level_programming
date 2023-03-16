@@ -3,7 +3,8 @@
 	* main - Prints out a string to stdout.
 	* Return : 0 (Succes)
 	*/
-	int main(void) {
+	int main(void) 
+        {
 	char a;
 	int b;
 	long int c;
