@@ -7,6 +7,7 @@
 * @argc: number of arguments
 * @argv: array of arguments
 *
+* Return: 0 on success, 1 on error
 */
 int main(int argc, char *argv[])
 {
@@ -23,7 +24,7 @@ int main(int argc, char *argv[])
 	{
 		if (cents >= 25)
 		{
-			cents = cents - 25;		
+			cents = cents - 25;
 		}
 		else if (cents >= 10)
 		{
