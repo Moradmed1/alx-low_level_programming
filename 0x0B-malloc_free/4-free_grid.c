@@ -1,5 +1,6 @@
 #include "main.h"
 #include <stdlib.h>
+
 /**
  * free-grid - free the grid
  * @grid: grid of memories
@@ -8,7 +9,8 @@
  */
 
 void free_grid(int **grid, int height)
-{	int i = 0;
+{
+	int i = 0;
 
 	for (; i < height; i++)
 		free(grid[i]);
