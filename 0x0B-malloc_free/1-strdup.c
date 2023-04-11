@@ -1,12 +1,13 @@
 #include "main.h"
 #include <stdio.h>
 #include <stdlib.h>
+
 /**
- * _strdup - return a pointer to a newly allocated space in memory
- * wich contains a copy of the string given as a parameter
- * @str: string
- * return: 0
- **/
+ * *_strdup - copies the string given as parameter
+ * @str: string to duplicate
+ *
+ * Return: pointer to the copied string (Success), NULL (Error)
+ */
 
 char *_strdup(char *str)
 {
