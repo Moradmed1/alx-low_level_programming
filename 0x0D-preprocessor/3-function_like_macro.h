@@ -1,6 +1,6 @@
-#ifdef _FUNCTION_LIKE_MACRO_H
+#ifndef _FUNCTION_LIKE_MACRO_H
 #define _FUNCTION_LIKE_MACRO_H
 
-#define ABC(x)((x) < (0) ? -(x) : (x))
+#define ABs(x)((x) < (0) ? -(x) : (x))
 
 #endif
