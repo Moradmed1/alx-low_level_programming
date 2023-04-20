@@ -5,8 +5,7 @@
  * @n: number of paramters
  * @a...: var number of paramters to calc the sum
  *
- * Return: if n == 0 - 0.
- * otherwise - the sum of all para.
+ * Return: sum.
  */
 int sum_them_all(const unsigned int n, ...)
 {
