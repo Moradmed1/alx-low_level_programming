@@ -2,7 +2,7 @@
 
 /**
  * sum_them_all - sum of all its para.
- * @an: number of paramters
+ * @n: number of paramters
  * @a...: var number of paramters to calc the sum
  *
  * Return: if n == 0 - 0.
@@ -10,14 +10,16 @@
  */
 int sum_them_all(const unsigned int n, ...)
 {
-	va_list ap;
-	unsigned int j, sum = 0;
+	va_list ar;
+	int j = n, sum = 0;
 
-	va_start(ap, n);
-	for (j = 0; j < n; j++)
-		sum += va_arg(ap, int);
+	if (!n)
+		return (0);
+	va_start(ar, n);
+	while (j--)
+		sum += va_arg(ar, int);
 
-	va_end(ap);
+	va_end(ar);
 
 	return (sum);
 }
