@@ -1,7 +1,7 @@
 #include "lists.h"
 
 /**
- * stint_lent - returns nbre
+ * listint_len - returns nbre
  * @h: limked list
  *
  * Return: nbre of nodes
