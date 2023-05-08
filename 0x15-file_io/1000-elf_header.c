@@ -6,33 +6,33 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void ck_elf(unsigned char *ei_id);
-void pt_magic(unsigned char *ei_id);
-void pt_class(unsigned char *ei_id);
-void pt_data(unsigned char *ei_id);
-void pt_version(unsigned char *ei_id);
-void pt_abi(unsigned char *ei_id);
-void pt_osabi(unsigned char *ei_id);
-void pt_type(unsigned int e_type, unsigned char *ei_id);
-void pt_entry(unsigned long int e_entry, unsigned char *ei_id);
+void ck_elf(unsigned char *e_ident);
+void pt_magic(unsigned char *e_ident);
+void pt_class(unsigned char *e_ident);
+void pt_data(unsigned char *e_ident);
+void pt_version(unsigned char *e_ident);
+void pt_abi(unsigned char *e_ident);
+void pt_osabi(unsigned char *e_ident);
+void pt_type(unsigned int e_type, unsigned char *e_ident);
+void pt_entry(unsigned long int e_entry, unsigned char *e_ident);
 void clo_elf(int elf);
 
 /**
 * ck_elf - Checks if a file is an ELF file.
-* @ei_id: A pointer to an array containing the ELF magic numbers.
+* @e_ident: A pointer to an array containing the ELF magic numbers.
 *
 * Description: If the file is not an ELF file - exit code 98.
 */
-void ck_elf(unsigned char *ei_id)
+void ck_elf(unsigned char *e_ident)
 {
 int idx;
 
 for (idx = 0; idx < 4; idx++)
 {
-if (ei_id[idx] != 127 &&
-ei_id[idx] != 'E' &&
-ei_id[idx] != 'L' &&
-ei_id[idx] != 'F')
+if (e_ident[idx] != 127 &&
+e_ident[idx] != 'E' &&
+e_ident[idx] != 'L' &&
+e_ident[idx] != 'F')
 {
 dprintf(STDERR_FILENO, "Error: Not an ELF file\n");
 exit(98);
@@ -42,11 +42,11 @@ exit(98);
 
 /**
 * pt_magic - Prints the magic numbers of an ELF header.
-* @ei_id: A pointer to an array containing the ELF magic numbers.
+* @e_ident: A pointer to an array containing the ELF magic numbers.
 *
 * Description: Magic numbers are separated by spaces.
 */
-void pt_magic(unsigned char *ei_id)
+void pt_magic(unsigned char *e_ident)
 {
 int idx;
 
@@ -54,7 +54,7 @@ printf("  Magic:   ");
 
 for (idx = 0; idx < EI_NIDENT; idx++)
 {
-printf("%02x", ei_id[idx]);
+printf("%02x", e_ident[idx]);
 
 if (idx == EI_NIDENT - 1)
 printf("\n");
@@ -65,13 +65,13 @@ printf(" ");
 
 /**
 * pt_class - Prints the class of an ELF header.
-* @ei_id: A pointer to an array containing the ELF class.
+* @e_ident: A pointer to an array containing the ELF class.
 */
-void pt_class(unsigned char *ei_id)
+void pt_class(unsigned char *e_ident)
 {
 printf("  Class:                             ");
 
-switch (ei_id[EI_CLASS])
+switch (e_ident[EI_CLASS])
 {
 case ELFCLASSNONE:
 printf("none\n");
@@ -83,19 +83,19 @@ case ELFCLASS64:
 printf("ELF64\n");
 break;
 default:
-printf("<unknown: %x>\n", ei_id[EI_CLASS]);
+printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 }
 }
 
 /**
 * pt_data - Prints the data of an ELF header.
-* @ei_id: A pointer to an array containing the ELF class.
+* @e_ident: A pointer to an array containing the ELF class.
 */
-void pt_data(unsigned char *ei_id)
+void pt_data(unsigned char *e_ident)
 {
 printf("  Data:                              ");
 
-switch (ei_id[EI_DATA])
+switch (e_ident[EI_DATA])
 {
 case ELFDATANONE:
 printf("none\n");
@@ -107,20 +107,20 @@ case ELFDATA2MSB:
 printf("2's complement, big endian\n");
 break;
 default:
-printf("<unknown: %x>\n", ei_id[EI_CLASS]);
+printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 }
 }
 
 /**
 * pt_version - Prints the version of an ELF header.
-* @ei_id: A pointer to an array containing the ELF version.
+* @e_ident: A pointer to an array containing the ELF version.
 */
-void pt_version(unsigned char *ei_id)
+void pt_version(unsigned char *e_ident)
 {
 printf("  Version:                           %d",
-ei_id[EI_VERSION]);
+e_ident[EI_VERSION]);
 
-switch (ei_id[EI_VERSION])
+switch (e_ident[EI_VERSION])
 {
 case EV_CURRENT:
 printf(" (current)\n");
@@ -133,13 +133,13 @@ break;
 
 /**
 * pt_osabi - Prints the OS/ABI of an ELF header.
-* @ei_id: A pointer to an array containing the ELF version.
+* @e_ident: A pointer to an array containing the ELF version.
 */
-void pt_osabi(unsigned char *ei_id)
+void pt_osabi(unsigned char *e_ident)
 {
 printf("  OS/ABI:                            ");
 
-switch (ei_id[EI_OSABI])
+switch (e_ident[EI_OSABI])
 {
 case ELFOSABI_NONE:
 printf("UNIX - System V\n");
@@ -172,28 +172,28 @@ case ELFOSABI_STANDALONE:
 printf("Standalone App\n");
 break;
 default:
-printf("<unknown: %x>\n", ei_id[EI_OSABI]);
+printf("<unknown: %x>\n", e_ident[EI_OSABI]);
 }
 }
 
 /**
 * pt_abi - Prints the ABI version of an ELF header.
-* @ei_id: A pointer to an array containing the ELF ABI version.
+* @e_ident: A pointer to an array containing the ELF ABI version.
 */
-void pt_abi(unsigned char *ei_id)
+void pt_abi(unsigned char *e_ident)
 {
 printf("  ABI Version:                       %d\n",
-ei_id[EI_ABIVERSION]);
+e_ident[EI_ABIVERSION]);
 }
 
 /**
 * pt_type - Prints the type of an ELF header.
 * @e_type: The ELF type.
-* @ei_id: A pointer to an array containing the ELF class.
+* @e_ident: A pointer to an array containing the ELF class.
 */
-void pt_type(unsigned int e_type, unsigned char *ei_id)
+void pt_type(unsigned int e_type, unsigned char *e_ident)
 {
-if (ei_id[EI_DATA] == ELFDATA2MSB)
+if (e_ident[EI_DATA] == ELFDATA2MSB)
 e_type >>= 8;
 
 printf("  Type:                              ");
@@ -223,20 +223,20 @@ printf("<unknown: %x>\n", e_type);
 /**
 * pt_entry - Prints the entry point of an ELF header.
 * @e_entry: The address of the ELF entry point.
-* @ei_id: A pointer to an array containing the ELF class.
+* @e_ident: A pointer to an array containing the ELF class.
 */
-void pt_entry(unsigned long int e_entry, unsigned char *ei_id)
+void pt_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
 printf("  Entry point address:               ");
 
-if (ei_id[EI_DATA] == ELFDATA2MSB)
+if (e_ident[EI_DATA] == ELFDATA2MSB)
 {
 e_entry = ((e_entry << 8) & 0xFF00FF00) |
 ((e_entry >> 8) & 0xFF00FF);
 e_entry = (e_entry << 16) | (e_entry >> 16);
 }
 
-if (ei_id[EI_CLASS] == ELFCLASS32)
+if (e_ident[EI_CLASS] == ELFCLASS32)
 printf("%#x\n", (unsigned int)e_entry);
 
 else
@@ -297,16 +297,16 @@ dprintf(STDERR_FILENO, "Error: `%s`: No such file\n", argv[1]);
 exit(98);
 }
 
-ck_elf(header->ei_id);
+ck_elf(header->e_ident);
 printf("ELF Header:\n");
-pt_magic(header->ei_id);
-pt_class(header->ei_id);
-pt_data(header->ei_id);
-pt_version(header->ei_id);
-pt_osabi(header->ei_id);
-pt_abi(header->ei_id);
-pt_type(header->e_type, header->ei_id);
-pt_entry(header->e_entry, header->ei_id);
+pt_magic(header->e_ident);
+pt_class(header->e_ident);
+pt_data(header->e_ident);
+pt_version(header->e_ident);
+pt_osabi(header->e_ident);
+pt_abi(header->e_ident);
+pt_type(header->e_type, header->e_ident);
+pt_entry(header->e_entry, header->e_ident);
 
 free(header);
 clo_elf(o);
