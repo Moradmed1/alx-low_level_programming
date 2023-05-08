@@ -41,10 +41,10 @@ exit(98);
 }
 
 /**
-* pt_magic - Prints the magic numbers of an ELF header.
-* @e_ident: A pointer to an array containing the ELF magic numbers.
+* pt_magic - does print  magic nbre.
+* @e_ident: is pointer.
 *
-* Description: Magic numbers are separated by spaces.
+* Description: Magic nbr separated by spaces.
 */
 void pt_magic(unsigned char *e_ident)
 {
@@ -64,8 +64,8 @@ printf(" ");
 }
 
 /**
-* pt_class - Prints the class of an ELF header.
-* @e_ident: A pointer to an array containing the ELF class.
+* pt_class - does prints the class.
+* @e_ident: A pointer.
 */
 void pt_class(unsigned char *e_ident)
 {
@@ -88,8 +88,8 @@ printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 }
 
 /**
-* pt_data - Prints the data of an ELF header.
-* @e_ident: A pointer to an array containing the ELF class.
+* pt_data - does prints data.
+* @e_ident: A pointer.
 */
 void pt_data(unsigned char *e_ident)
 {
@@ -112,8 +112,8 @@ printf("<unknown: %x>\n", e_ident[EI_CLASS]);
 }
 
 /**
-* pt_version - Prints the version of an ELF header.
-* @e_ident: A pointer to an array containing the ELF version.
+* pt_version - does prints version.
+* @e_ident: A pointer.
 */
 void pt_version(unsigned char *e_ident)
 {
@@ -132,8 +132,8 @@ break;
 }
 
 /**
-* pt_osabi - Prints the OS/ABI of an ELF header.
-* @e_ident: A pointer to an array containing the ELF version.
+* pt_osabi - does prints OS/ABI of an ELF header.
+* @e_ident: A pointer.
 */
 void pt_osabi(unsigned char *e_ident)
 {
@@ -177,8 +177,8 @@ printf("<unknown: %x>\n", e_ident[EI_OSABI]);
 }
 
 /**
-* pt_abi - Prints the ABI version of an ELF header.
-* @e_ident: A pointer to an array containing the ELF ABI version.
+* pt_abi - does print ABI ver.
+* @e_ident: A pointer.
 */
 void pt_abi(unsigned char *e_ident)
 {
@@ -187,9 +187,9 @@ e_ident[EI_ABIVERSION]);
 }
 
 /**
-* pt_type - Prints the type of an ELF header.
+* pt_type - does prints type ELF header.
 * @e_type: The ELF type.
-* @e_ident: A pointer to an array containing the ELF class.
+* @e_ident: A pointer.
 */
 void pt_type(unsigned int e_type, unsigned char *e_ident)
 {
@@ -221,9 +221,9 @@ printf("<unknown: %x>\n", e_type);
 }
 
 /**
-* pt_entry - Prints the entry point of an ELF header.
-* @e_entry: The address of the ELF entry point.
-* @e_ident: A pointer to an array containing the ELF class.
+* pt_entry - does prints the entry point.
+* @e_entry: entry point adress.
+* @e_ident: A pointer.
 */
 void pt_entry(unsigned long int e_entry, unsigned char *e_ident)
 {
@@ -244,10 +244,10 @@ printf("%#lx\n", e_entry);
 }
 
 /**
-* clo_elf - Closes an ELF file.
-* @elf: The file descriptor of the ELF file.
+* clo_elf - does closes an ELF file.
+* @elf: file desc.
 *
-* Description: If the file cannot be closed - exit code 98.
+* Description: If cannot be closed - exit code 98.
 */
 void clo_elf(int elf)
 {
@@ -260,15 +260,15 @@ exit(98);
 }
 
 /**
-* main - Displays the information contained in the
+* main - does displays info in
 *        ELF header at the start of an ELF file.
-* @argc: The number of arguments supplied to the program.
-* @argv: An array of pointers to the arguments.
+* @argc: The number of argumen.
+* @argv: pointers  the arguments.
 *
 * Return: 0 on success.
 *
-* Description: If the file is not an ELF File or
-*              the function fails - exit code 98.
+* Description: If file is not an ELF File or
+*              the fct fails - exit code 98.
 */
 int main(int __attribute__((__unused__)) argc, char *argv[])
 {
@@ -312,5 +312,3 @@ free(header);
 clo_elf(o);
 return (0);
 }
-
-
