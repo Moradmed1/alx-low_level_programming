@@ -6,7 +6,7 @@ char *create_buffer(char *file);
 void close_file(int fd);
 
 /**
- * create__buffer - allocate 1024
+ * create_buffer - allocate 1024
  * @file: file
  *
  * Return: pointer
