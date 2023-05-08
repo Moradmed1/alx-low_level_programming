@@ -1,73 +1,93 @@
 #include "main.h"
+#include <stdlib.h>
 #include <stdio.h>
 
-/**
- * error_file - checks opened
- * @file_from: file
- * @file_to: file
- * @argv: arg
- * Return: qvoid
- */
+char *c_buff(char *file);
+void cl_file(int fd);
 
-void error_file(int file_from, int file_to, char *argv[])
+/**
+ * c_buff - allocate 1024
+ * @file: file
+ *
+ * Return: pointer
+ */
+char *c_buff(char *file)
 {
-	if (file_from == -1)
+	char *buffer;
+
+	buffer = malloc(sizeof(char) * 1024);
+
+	if (buffer == NULL)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
-		exit(98);
-	}
-	if (file_to == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't wite to %s\n", argv[2]);
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", file);
 		exit(99);
 	}
+	return (buffer);
 }
-/**
- * main - chech code
- * @argc: nbre arg
- * @argv: arg vec
- * Return: 0
- */
 
+/**
+ * cl_file - close
+ * @fd: desc
+ */
+void cl_file(int fd)
+{
+	int m;
+
+	m = close(fd);
+
+	if (m == -1)
+	{
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		exit(100);
+	}
+}
+
+/**
+ * main - copie
+ * @argc: nbre arg
+ * @argv: pointer
+ *
+ * Return: 0
+ *
+ * Description: if arg exit 97
+ */
 int main(int argc, char *argv[])
 {
-	int from, to, err_cl;
-	ssize_t nchars, nbwr;
-	char buff[1024];
+	int fr, to, rw, wr;
+	char *buffer;
 
 	if (argc != 3)
 	{
-		dprintf(STDERR_FILENO, "%s\n", "Usage: cp file_from file_to");
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
 		exit(97);
 	}
+	buffer = c_buff(argv[2]);
+	fr = open(argv[1], O_RDONLY);
+	rw = read(fr, buffer, 1024);
+	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 
-	from = open(argv[1], O_RDONLY);
-	to = open(argv[2], O_CREAT | O_WRONLY | O_TRUNC | O_APPEND, 0664);
-	error_file(from, to, argv);
+	do {
+		if (fr == -1 || rw == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", argv[1]);
+			free(buffer);
+			exit(98);
+		}
 
-	nchars = 1024;
-	while (nchars == 1024)
-	{
-		nchars = read(from, buff, 1024);
-		if (nchars == -1)
-			error_file(-1, 0, argv);
-		nbwr = write(to, buff, nchars);
-		if (nbwr == -1)
-			error_file(0, -1, argv);
-	}
+		wr = write(to, buffer, rw);
+		if (to == -1 || wr == -1)
+		{
+			dprintf(STDERR_FILENO, "Error: Can't write to %s\n", argv[2]);
+			free(buffer);
+			exit(99);
+		}
+		rw = read(fr, buffer, 1024);
+		to = open(argv[2], O_WRONLY | O_APPEND);
+	} while (rw > 0);
 
-	err_cl = close(from);
-	if (err_cl == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", from);
-		exit(100);
-	}
-
-	err_cl = close(to);
-	if (err_cl == -1)
-	{
-		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", from);
-		exit(100);
-	}
+	free(buffer);
+	cl_file(to);
 	return (0);
+
 }
+
