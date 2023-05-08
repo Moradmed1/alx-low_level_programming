@@ -10,7 +10,7 @@ void close_file(int fd);
 * @file: name  file buffer  for.
 *
 * Return: A pointer to the 
-*  buffer.
+* buffer.
 */
 char *create_buffer(char *file)
 {
