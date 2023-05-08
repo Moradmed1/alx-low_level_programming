@@ -93,7 +93,7 @@ int main(int argc, char *argv[])
 		rr = read(from, buffer, 1024);
 		to = open(argv[2], O_WRONLY | O_APPEND);
 
-	} while (rr > 0);
+		} while (rr > 0);
 
 	free(buffer);
 	close_file(from);
